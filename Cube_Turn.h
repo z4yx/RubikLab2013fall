@@ -190,6 +190,47 @@ int Turn_z()
 	Turn_Z();
 }		
 
-int Turn_
+int Turn_P()
+{
+	Turn_u();
+	Turn_D();
+	Turn_X();
+}
+
+int Turn_p()
+{
+	Turn_P();
+	Turn_P();
+	Turn_P();
+}
+
+int Turn_Q()
+{
+	Turn_f();
+	Turn_B();
+	Turn_Y();
+}
+
+int Turn_q()
+{
+	Turn_Q();
+	Turn_Q();
+	Turn_Q();
+}
+
+int Turn_W()
+{
+	Turn_L();
+	Turn_r();
+	Turn_Z();
+}
+
+int Turn_w()
+{
+	Turn_W();
+	Turn_W();
+	Turn_W();
+}
+
 };
 #endif
