@@ -41,7 +41,7 @@ int Turn_R()
 	back[0][2]=down[0][2];back[1][2]=down[1][2];back[2][2]=down[2][2];
 	down[0][2]=front[0][2];down[1][2]=front[1][2];down[2][2]=front[2][2];
 	front[0][2]=a[0];front[1][2]=a[1];front[2][2]=a[2];
-	Turn_M(left);	
+	Turn_M(right);	
 }
 
 int Turn_r ()
@@ -54,12 +54,12 @@ int Turn_r ()
 int Turn_L()
 {
 	char a[3];
-	a[0]=up[0][2];a[1]=up[1][2];a[2]=up[2][2];
-	up[0][2]=front[0][2];up[1][2]=front[1][2];up[2][2]=front[2][2];
-	front[0][2]=down[0][2];front[1][2]=down[1][2];front[2][2]=down[2][2];
-	down[0][2]=back[0][2];down[1][2]=back[1][2];down[2][2]=back[2][2];
-	back[0][2]=a[0];back[1][2]=a[1];back[2][2]=a[2];
-	Turn_M(right);
+	a[0]=up[0][0];a[1]=up[1][0];a[2]=up[2][0];
+	up[0][0]=front[0][0];up[1][0]=front[1][0];up[2][0]=front[2][0];
+	front[0][0]=down[0][0];front[1][0]=down[1][0];front[2][0]=down[2][0];
+	down[0][0]=back[0][0];down[1][0]=back[1][0];down[2][0]=back[2][0];
+	back[0][0]=a[0];back[1][0]=a[1];back[2][0]=a[2];
+	Turn_M(left);
 }	
 
 int Turn_l()
