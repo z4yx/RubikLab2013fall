@@ -128,7 +128,7 @@ public:
 		for(;!Pd_Xiao(x););
 		if(Pd_Mid(x)) return s;
 	}
-	string Main(Cube &x)
+	string Main(Cube x)
 	{
 		ans="";
 		ans=Main1(x);
