@@ -7,6 +7,7 @@ using namespace std;
 struct Third
 {
 	string s,turn1,turn2,s1;
+public:
 	bool Pd1(Cube &x)
 	{
 		char a=x.up[1][1];
@@ -88,7 +89,7 @@ struct Third
 		return 0;
 	}
 				
-	string Main(Cube &x)
+	string Main(Cube x)
 	{
 		s="";turn1="RUrURUUr";
 		turn2="luLuluuL";
