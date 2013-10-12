@@ -4,6 +4,7 @@
 #include "cube_step_one.h"
 #include "solve_2.cpp"
 #include "Third.h"
+#include "step_final.hpp"
 
 #define STATE_FILE "cube.save"
 
@@ -186,6 +187,12 @@ PyObject* step3(PyObject* self, PyObject *args)
 	printf("step3: %s\n", steps.c_str());
 	return Py_BuildValue("s", steps.c_str());
 }
+PyObject* step4(PyObject* self, PyObject *args)
+{
+	std::string steps = CStepFinal::run(cubeObj);
+	printf("step4: %s\n", steps.c_str());
+	return Py_BuildValue("s", steps.c_str());
+}
 PyObject* readstate(PyObject* self, PyObject *args)
 {
 	do_read_state();
@@ -214,6 +221,7 @@ static PyMethodDef cubeMethods[] =
 	{"step1", step1, METH_VARARGS, "step1"},
 	{"step2", step2, METH_VARARGS, "step2"},
 	{"step3", step3, METH_VARARGS, "step3"},
+	{"step4", step4, METH_VARARGS, "step4"},
 	{NULL, NULL}
 };
 extern "C"{
