@@ -243,6 +243,10 @@ def keyPressed(*args):
         steps = cube.step2();
         pendingSteps = steps
         fetchPendings()
+    elif key == '3':
+        steps = cube.step3();
+        pendingSteps = steps
+        fetchPendings()
     # elif args[0] == 'a':
     #     rotate_y -= 5.0
     # elif args[0] == 'd':

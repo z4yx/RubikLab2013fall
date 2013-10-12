@@ -3,6 +3,7 @@
 #include "Cube_Turn.h"
 #include "cube_step_one.h"
 #include "solve_2.cpp"
+#include "Third.h"
 
 #define STATE_FILE "cube.save"
 
@@ -55,6 +56,12 @@ static void do_write_state()
 		fwrite(faces[i], 1, sizeof(cubeObj.up), ar);
 	fclose(ar);
 	printf("state written\n");
+}
+static void reset_cube()
+{
+	int i;
+	for(i = 0; i < 6; i++)
+		setAll(faces[i], i);
 }
 PyObject* rotate(PyObject* self, PyObject *args)
 {
@@ -152,7 +159,6 @@ PyObject* rotate(PyObject* self, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;
 }
-
 PyObject* get(PyObject* self, PyObject *args)
 {
 	int face, n, m;
@@ -173,6 +179,13 @@ PyObject* step2(PyObject* self, PyObject *args)
 	printf("step2: %s\n", steps.c_str());
 	return Py_BuildValue("s", steps.c_str());
 }
+PyObject* step3(PyObject* self, PyObject *args)
+{
+	Third third_solver;
+	std::string steps = third_solver.Main(cubeObj);
+	printf("step3: %s\n", steps.c_str());
+	return Py_BuildValue("s", steps.c_str());
+}
 PyObject* readstate(PyObject* self, PyObject *args)
 {
 	do_read_state();
@@ -187,22 +200,26 @@ PyObject* writestate(PyObject* self, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;
 }
+PyObject* reset(PyObject* self, PyObject *args)
+{
+	reset_cube();
+}
 static PyMethodDef cubeMethods[] =
 {
+	{"reset", reset, METH_VARARGS, "reset to init state"},
 	{"rotate", rotate, METH_VARARGS, "rotate face"},
 	{"getcolor", get, METH_VARARGS, "get color of a face"},
 	{"readstate", readstate, METH_VARARGS, "read state from file"},
 	{"writestate", writestate, METH_VARARGS, "write state to file"},
 	{"step1", step1, METH_VARARGS, "step1"},
 	{"step2", step2, METH_VARARGS, "step2"},
+	{"step3", step3, METH_VARARGS, "step3"},
 	{NULL, NULL}
 };
 extern "C"{
 void initcube()
 {
-	int i;
-	for(i = 0; i < 6; i++)
-		setAll(faces[i], i);
+	reset_cube();
 
 	PyObject* m;
 	m = Py_InitModule("cube", cubeMethods);
