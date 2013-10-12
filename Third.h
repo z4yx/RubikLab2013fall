@@ -93,7 +93,7 @@ public:
 	{
 		s="";turn1="RUrURUUr";
 		turn2="luLuluuL";
-		if(Pd_Main(x)) return s;
+		if(Pd_Main(x)) return s1;
 		if(Pd_Mid(x)) return s;
 		for(;!Pd_Xiao(x););
 		if(Pd_Mid(x)) return s;
