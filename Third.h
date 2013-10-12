@@ -6,7 +6,7 @@
 using namespace std;
 struct Third
 {
-	string s,turn1,turn2;
+	string s,turn1,turn2,s1;
 	bool Pd1(Cube &x)
 	{
 		char a=x.up[1][1];
@@ -40,13 +40,13 @@ struct Third
 		if(Pd1(x))
 		{
 			x.Turn_U();x.Turn_U();x.Turn_U();ss+="UUU";
-			Turn1(x);ss+=turn1;s+=ss;
+			Turn1(x);ss+=turn1;s1=ss;
 			return 1;
 		}
 		if(Pd2(x))
 		{
 			x.Turn_U();x.Turn_U();ss+="UU";
-			Turn2(x);ss+=turn2;s+=ss;
+			Turn2(x);ss+=turn2;s1=ss;
 			return 1;
 		}
 		return 0;
@@ -73,14 +73,17 @@ struct Third
 	}
 	bool Pd_Mid(Cube &x)
 	{
-		string ss;
-		ss="";
+		string ss,ss1;
+		Cube xx;
+		ss="";ss1="";
+		if(Pd_Main(x)){s+=s1;return 1;}
 		for(int i=1;i<=4;i++)
 		{
-			x.Turn_U();
-			ss="U";ss+=turn1;
-			Turn1(x);if(Pd_Main(x)){s+=ss;return 1;}
-			Turn2(x);
+            x.Turn_U();    
+			ss1+="U";ss=ss1+turn1;xx=x;
+			Turn1(x);
+            if(Pd_Main(x)){s+=ss+s1;return 1;}
+			x=xx;
 		}
 		return 0;
 	}
