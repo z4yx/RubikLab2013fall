@@ -12,6 +12,9 @@ using namespace std;
 struct second
 {
 string ans;
+char last;
+int tott;
+
 public:
 bool solve2_check(char a[3][3],int j)
 {
@@ -36,7 +39,22 @@ bool solve2_check1(Cube a)
 
 void add(char t)
 {
-  ans=ans+t;
+  if (tott!=0 && last!=t)
+  {
+    if (tott==3)
+    {
+      tott=1;
+      if (last>='a') last=last-('a'-'A'); else last=last+('a'-'A');
+    }
+    for (int i=1;i<=tott;i++) ans=ans+last;
+    tott=1;last=t;
+  } else
+  if (tott!=0 && last==t)
+    tott=(tott+1)%4; else
+    if (tott==0)
+    {
+      tott=1;last=t;
+    }
 }
 
 bool solve2_check2(Cube a)
@@ -108,6 +126,7 @@ void solve_2_before(Cube &a)
 string solve_2(Cube a)
 {
   int i;
+  tott=0;
   solve_2_before(a);
   for (i=1;i<=4;i++)
     if (a.front[0][1]==a.front[1][1]) break; else {a.Turn_p();add('p');}
@@ -133,6 +152,12 @@ string solve_2(Cube a)
       a.Turn_X();add('X');
     }
   }
+  if (tott==3)
+  {
+    tott=1;
+    if (last>='a') last=last-('a'-'A'); else last=last+('a'-'A');
+  }
+  for (int i=1;i<=tott;i++) ans=ans+last;
   return ans;
 }
 };
