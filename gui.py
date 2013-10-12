@@ -14,6 +14,8 @@ anim_delta = 0.0
 anim_elements = None
 anim_axis = None
 
+pendingSteps = ""
+
 class CUBE_FACES:
     UP=0
     DOWN=1
@@ -154,9 +156,18 @@ def drawCubeElement(x, y, z, rot_x, rot_y, rot_z):
     # glRotatef(-rot_x, 1, 0, 0)
     # glTranslatef(-x, -y, -z)
 
+def fetchPendings():
+    global pendingSteps
+    if len(pendingSteps) > 0:
+        startAnimation(pendingSteps[0])
+        pendingSteps = pendingSteps[1:]
+
+
 def animEnded():
     global cur_oper
     cube.rotate(cur_oper)
+
+    fetchPendings()
 
 def drawFunc():
     global rotate_y,rotate_x,rotate_z
@@ -199,8 +210,19 @@ def drawFunc():
             anim_running = False
             animEnded();
 
+def startAnimation(oper):
+    global cur_oper
+    global rotate_y,rotate_x,rotate_z
+    global anim_deg,anim_running,anim_delta,anim_axis,anim_elements
+
+    cur_oper = oper;
+    anim_running = True
+    anim_deg = 0.0
+    (anim_elements,anim_axis,anim_delta) = Operations[oper]
+    anim_delta *= 4
 
 def keyPressed(*args):
+    global pendingSteps
     global cur_oper
     global rotate_y,rotate_x,rotate_z
     global anim_deg,anim_running,anim_delta,anim_axis,anim_elements
@@ -209,6 +231,18 @@ def keyPressed(*args):
     
     if key == '\033':   #ESC
         sys.exit()
+    elif key == '+':
+        cube.writestate()
+    elif key == '0':
+        cube.readstate()
+    elif key == '1':
+        steps = cube.step1();
+        pendingSteps = steps
+        fetchPendings()
+    elif key == '2':
+        steps = cube.step2();
+        pendingSteps = steps
+        fetchPendings()
     # elif args[0] == 'a':
     #     rotate_y -= 5.0
     # elif args[0] == 'd':
@@ -220,12 +254,7 @@ def keyPressed(*args):
     else:
         if not (key in Operations):
             return
-
-        cur_oper = key;
-        anim_running = True
-        anim_deg = 0.0
-        (anim_elements,anim_axis,anim_delta) = Operations[key]
-        anim_delta *= 3
+        startAnimation(key)
     # elif args[0] == GLUT_KEY_LEFT:
     #     rotate_y -= 5.0
     # elif args[0] == GLUT_KEY_RIGHT:

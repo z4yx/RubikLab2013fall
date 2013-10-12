@@ -1,6 +1,10 @@
 // #include <Python.h>
 #include <Python/Python.h>
 #include "Cube_Turn.h"
+#include "cube_step_one.h"
+#include "solve_2.cpp"
+
+#define STATE_FILE "cube.save"
 
 static Cube cubeObj;
 typedef char (*face_t)[3];
@@ -25,6 +29,32 @@ static void setAll(char face[][3], int c)
 	for(i = 0; i < 3; i++)
 		for(j = 0; j< 3; j++)
 			face[i][j] = c;
+}
+static void do_read_state()
+{
+	int i;
+	FILE * ar = fopen(STATE_FILE,"r");
+	if(!ar){
+		printf("%s\n", "failed to open " STATE_FILE " for read");
+		return;
+	}
+	for(i=0; i<6; i++)
+		fread(faces[i], 1, sizeof(cubeObj.up), ar);
+	fclose(ar);
+	printf("state read\n");
+}
+static void do_write_state()
+{
+	int i;
+	FILE * ar = fopen(STATE_FILE,"w");
+	if(!ar){
+		printf("%s\n", "failed to open " STATE_FILE " for write");
+		return;
+	}
+	for(i=0; i<6; i++)
+		fwrite(faces[i], 1, sizeof(cubeObj.up), ar);
+	fclose(ar);
+	printf("state written\n");
 }
 PyObject* rotate(PyObject* self, PyObject *args)
 {
@@ -130,11 +160,41 @@ PyObject* get(PyObject* self, PyObject *args)
 		return NULL;
 	return Py_BuildValue("i", faces[face][n][m]);
 }
+PyObject* step1(PyObject* self, PyObject *args)
+{
+	std::string steps = cube_step_one::step_one_solver(cubeObj);
+	printf("step1: %s\n", steps.c_str());
+	return Py_BuildValue("s", steps.c_str());
+}
+PyObject* step2(PyObject* self, PyObject *args)
+{
+	second second_solver;
+	std::string steps = second_solver.solve_2(cubeObj);
+	printf("step2: %s\n", steps.c_str());
+	return Py_BuildValue("s", steps.c_str());
+}
+PyObject* readstate(PyObject* self, PyObject *args)
+{
+	do_read_state();
 
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+PyObject* writestate(PyObject* self, PyObject *args)
+{
+	do_write_state();
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
 static PyMethodDef cubeMethods[] =
 {
 	{"rotate", rotate, METH_VARARGS, "rotate face"},
 	{"getcolor", get, METH_VARARGS, "get color of a face"},
+	{"readstate", readstate, METH_VARARGS, "read state from file"},
+	{"writestate", writestate, METH_VARARGS, "write state to file"},
+	{"step1", step1, METH_VARARGS, "step1"},
+	{"step2", step2, METH_VARARGS, "step2"},
 	{NULL, NULL}
 };
 extern "C"{
