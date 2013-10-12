@@ -128,12 +128,17 @@ public:
 		for(;!Pd_Xiao(x););
 		if(Pd_Mid(x)) return s;
 	}
-	string Main(Cube x)
+	string Main(Cube &x)
 	{
 		ans="";
 		ans=Main1(x);
 		ans+=Main2(x);
-		return s;
+        for(int i=1;i<=4;i++)
+        {
+                if(x.front[2][0]==x.front[1][0]) break;
+                x.Turn_U();ans+="U";
+        }
+		return ans;
 	}
 };
 #endif
