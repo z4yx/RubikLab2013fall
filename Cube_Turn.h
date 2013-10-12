@@ -2,7 +2,6 @@
 #define CUBETURN_H
 #include<stdio.h>
 #include<string.h>
-#include<math.h>
 struct Cube
 {
 	char front[3][3],back[3][3],left[3][3],right[3][3],up[3][3],down[3][3];
@@ -240,3 +239,5 @@ int Turn_w()
 
 };
 #endif
+
+
