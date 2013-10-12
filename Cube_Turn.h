@@ -111,10 +111,10 @@ int Turn_F()
 	char a[3];
 	Turn_M(front);
 	a[0]=up[0][0];a[1]=up[0][1];a[2]=up[0][2];
-	up[0][0]=left[2][0];up[0][1]=left[1][0];up[0][2]=left[0][0];
-	left[2][0]=down[2][0];left[1][0]=down[2][1];left[0][0]=down[2][2];
-	down[2][0]=right[0][0];down[2][1]=right[0][1];down[2][2]=right[2][0];
-	right[0][0]=a[0];right[1][0]=a[1];right[2][0]=a[2];
+	up[0][0]=right[2][0];up[0][1]=right[1][0];up[0][2]=right[0][0];
+	right[2][0]=down[2][2];right[1][0]=down[2][1];right[0][0]=down[2][0];
+	down[2][2]=left[0][2];down[2][1]=left[1][2];down[2][0]=left[2][2];
+	left[0][2]=a[0];left[1][2]=a[1];left[2][2]=a[2];
 }
 
 int Turn_f()
@@ -129,10 +129,10 @@ int Turn_B()
 	char a[3];
 	Turn_M(back);
 	a[0]=up[2][0];a[1]=up[2][1];a[2]=up[2][2];
-	up[2][0]=left[2][2];up[2][1]=left[1][2];up[2][2]=left[0][2];
-	left[2][2]=down[0][0];left[1][2]=down[0][1];left[0][2]=down[0][2];
-	down[0][0]=right[0][2];down[0][1]=right[1][2];down[0][2]=right[2][2];
-	right[0][2]=a[0];right[1][2]=a[1];right[2][2]=a[2];
+	up[2][0]=left[0][0];up[2][1]=left[1][0];up[2][2]=left[2][0];
+	left[0][0]=down[0][2];left[1][0]=down[0][1];left[2][0]=down[0][0];
+	down[0][2]=right[2][2];down[0][1]=right[1][2];down[0][0]=right[0][2];
+	right[2][2]=a[0];right[1][2]=a[1];right[0][2]=a[2];
 }
 
 int Turn_b()
