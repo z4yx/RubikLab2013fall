@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from cube_oper import *
+import cube
 
 rotate_y = -45.0
 rotate_x = 15.0
@@ -47,17 +48,19 @@ def init():
 
     # gluOrtho2D(-1.0, 1.0, -1.0, 1.0)
 
+cood2index = lambda x:(0 if x<0 else (2 if x>0 else 1))
+
 def getColor(face, n, m):
 
-    cood2index = lambda x:(0 if x<0 else (2 if x>0 else 1))
 
     if face<0 or face>5:
         print "getColor: wrong face"
         return COLOR_INSIDE
+    if n<0 or n>2 or m<0 or m>2:
+        print "getColor: wrong index"
+        return COLOR_INSIDE
 
-    color_index = face
-    i = cood2index(n)
-    j = cood2index(m)
+    color_index = cube.getcolor(face, n, m)
     return CUBE_COLORS[color_index]
 
 def drawCubeElement(x, y, z, rot_x, rot_y, rot_z):
@@ -70,42 +73,42 @@ def drawCubeElement(x, y, z, rot_x, rot_y, rot_z):
     glRotatef(rot_z, 0, 0, 1)
 
     glBegin(GL_QUADS)
-    color = (getColor(CUBE_FACES.UP, z, x) if y>0 else COLOR_INSIDE)
+    color = (getColor(CUBE_FACES.UP, 2-cood2index(z), cood2index(x)) if y>0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(1.0, 1.0, -1.0)
     glVertex3f(-1.0, 1.0, -1.0)
     glVertex3f(-1.0, 1.0, 1.0)
     glVertex3f(1.0, 1.0, 1.0)
 
-    color = (getColor(CUBE_FACES.DOWN, z, x) if y<0 else COLOR_INSIDE) #TODO: z,x
+    color = (getColor(CUBE_FACES.DOWN, cood2index(z), cood2index(x)) if y<0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(1.0, -1.0, 1.0)
     glVertex3f(-1.0, -1.0, 1.0)
     glVertex3f(-1.0, -1.0, -1.0)
     glVertex3f(1.0, -1.0, -1.0)
 
-    color = (getColor(CUBE_FACES.FRONT, z, x) if z>0 else COLOR_INSIDE)
+    color = (getColor(CUBE_FACES.FRONT, cood2index(y), cood2index(x)) if z>0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(1.0, 1.0, 1.0)
     glVertex3f(1.0, -1.0, 1.0)
     glVertex3f(-1.0, -1.0, 1.0)
     glVertex3f(-1.0, 1.0, 1.0)
 
-    color = (getColor(CUBE_FACES.BACK, z, x) if z<0 else COLOR_INSIDE)
+    color = (getColor(CUBE_FACES.BACK, cood2index(y), 2-cood2index(x)) if z<0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(-1.0, 1.0, -1.0)
     glVertex3f(-1.0, -1.0, -1.0)
     glVertex3f(1.0, -1.0, -1.0)
     glVertex3f(1.0, 1.0, -1.0)
 
-    color = (getColor(CUBE_FACES.LEFT, z, x) if x<0 else COLOR_INSIDE)
+    color = (getColor(CUBE_FACES.LEFT, cood2index(y), cood2index(z)) if x<0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(-1.0, 1.0, -1.0)
     glVertex3f(-1.0, -1.0, -1.0)
     glVertex3f(-1.0, -1.0, 1.0)
     glVertex3f(-1.0, 1.0, 1.0)
 
-    color = (getColor(CUBE_FACES.RIGHT, z, x) if x>0 else COLOR_INSIDE)
+    color = (getColor(CUBE_FACES.RIGHT, cood2index(y), 2-cood2index(z)) if x>0 else COLOR_INSIDE)
     glColor3f(*color)
     glVertex3f(1.0, 1.0, -1.0)
     glVertex3f(1.0, 1.0, 1.0)
@@ -151,6 +154,10 @@ def drawCubeElement(x, y, z, rot_x, rot_y, rot_z):
     # glRotatef(-rot_x, 1, 0, 0)
     # glTranslatef(-x, -y, -z)
 
+def animEnded():
+    global cur_oper
+    cube.rotate(cur_oper)
+
 def drawFunc():
     global rotate_y,rotate_x,rotate_z
     global anim_deg,anim_running,anim_delta,anim_axis,anim_elements
@@ -190,9 +197,11 @@ def drawFunc():
         anim_deg += anim_delta
         if anim_deg > 90 or anim_deg < -90:
             anim_running = False
+            animEnded();
 
 
 def keyPressed(*args):
+    global cur_oper
     global rotate_y,rotate_x,rotate_z
     global anim_deg,anim_running,anim_delta,anim_axis,anim_elements
 
@@ -212,6 +221,7 @@ def keyPressed(*args):
         if not (key in Operations):
             return
 
+        cur_oper = key;
         anim_running = True
         anim_deg = 0.0
         (anim_elements,anim_axis,anim_delta) = Operations[key]
