@@ -1,8 +1,10 @@
 #ifndef CUBE_STEP_ONE_H_
 #define CUBE_STEP_ONE_H_
 #include <string>
+#include <cstdlib>
 #include "cube_turn.h"
-
+#include <cassert>
+#include <iostream>
 class cube_step_one_position{
 public:
 	int x, y, z;
@@ -16,236 +18,167 @@ private:
 	static bool color_mid_of_edge(char a[3][3], char base){
 		return a[0][1] == base || a[1][0] == base || a[1][2] == base || a[2][1] == base;
 	}
-	static std::string rotate_cross_up(Cube &A, int base){
-		std::string step = "";
-		if (A.up[0][1] == base){
-		}
-		else if (A.up[1][0] == base){
-			A.Turn_U();
-			step += "U";
-		}
-		else if (A.up[1][2] == base){
-			A.Turn_u();
-			step += "u";
-		}
-		else{
-			A.Turn_u();
-			A.Turn_u();
-			step += "uu";
-		}
-
-		if (A.down[2][1] != base){
-			A.Turn_f();
-			A.Turn_f();
-			step += "ff";
-		}
-		else if (A.down[1][0] != base){
-			A.Turn_u();
-			A.Turn_L();
-			A.Turn_L();
-			step += "uLL";
-		}
-		else if (A.down[1][2] != base){
-			A.Turn_U();
-			A.Turn_r();
-			A.Turn_r();
-			step += "Urr";
-		}
-		else{
-			A.Turn_D();
-			A.Turn_D();
-			A.Turn_f();
-			A.Turn_f();
-			step += "DDff";
-		}
-		return step;
+	static bool color_floor_mid_of_edge(Cube &A, char base){
+		return A.front[0][1] == base || A.left[0][1] == base ||
+				A.right[0][1] == base || A.back[0][1] == base;
 	}
-	static std::string rotate_cross_front(Cube &A, int base){
-		std::string step = "";
-
-		if (A.front[0][1] == base){
-			A.Turn_F();
-			step += "F";
-			if (A.down[1][2] != base){
-				A.Turn_R();
-				step += "R";
-			}
-			else if (A.down[2][1] != base){
-				A.Turn_d();
-				A.Turn_R();
-				step += "dR";
-			}
-			else if (A.down[0][1] != base){
-				A.Turn_D();
-				A.Turn_R();
-				step += "DR";
-			}
-			else{
-				A.Turn_D();
-				A.Turn_D();
-				A.Turn_R();
-				step += "DDR";
-			}
-		}
-		else if (A.front[1][0] == base){
-			if (A.down[1][0] != base){
-				A.Turn_l();
-				step += "l";
-			}
-			else if (A.down[2][1] != base){
-				A.Turn_D();
-				A.Turn_l();
-				step += "Dl";
-			}
-			else if (A.down[0][1] != base){
-				A.Turn_d();
-				A.Turn_l();
-				step += "dl";
-			}
-			else{
-				A.Turn_D();
-				A.Turn_D();
-				A.Turn_l();
-				step += "DDl";
-			}
-		}
-		else if (A.front[1][2] == base){
-			if (A.down[1][2] != base){
-				A.Turn_R();
-				step += "R";
-			}
-			else if (A.down[2][1] != base){
-				A.Turn_d();
-				A.Turn_R();
-				step += "dR";
-			}
-			else if (A.down[0][1] != base){
-				A.Turn_D();
-				A.Turn_R();
-				step += "DR";
-			}
-			else{
-				A.Turn_D();
-				A.Turn_D();
-				A.Turn_R();
-				step += "DDR";
-			}
-		}
-		else{
-			if (A.down[2][1] != base){
-				A.Turn_f();
-				step += "f";
-			}
-			else if (A.down[1][0] != base){
-				A.Turn_d();
-				A.Turn_f();
-				step += "df";
-			}
-			else if (A.down[1][2] != base){
-				A.Turn_D();
-				A.Turn_f();
-				step += "Df";
-			}
-			else{
-				A.Turn_d();
-				A.Turn_d();
-				A.Turn_f();
-				step += "ddf";
-			}
-
-			if (A.down[1][2] != base){
-				A.Turn_R();
-				step += "R";
-			}
-			else if (A.down[2][1] != base){
-				A.Turn_d();
-				A.Turn_R();
-				step += "dR";
-			}
-			else if (A.down[0][1] != base){
-				A.Turn_D();
-				A.Turn_R();
-				step += "DR";
-			}
-			else{
-				A.Turn_D();
-				A.Turn_D();
-				A.Turn_R();
-				step += "DDR";
-			}
-		}
-		return step;
+	static bool color_ceil_mid_of_edge(Cube &A, char base){
+		return A.front[2][1] == base || A.left[2][1] == base ||
+				A.right[2][1] == base || A.back[2][1] == base;
 	}
-	static int get_cross_match_count(Cube &A){
-		return (A.front[0][1] == A.front[1][1]) +
-				(A.left[0][1] == A.left[1][1]) +
-				(A.right[0][1] == A.right[1][1]) +
-				(A.back[0][1] == A.back[1][1]);
+	static std::string rotate_cross_down(Cube &A, int base){
+		for (int i = 0; i < 4; i++){
+			std::string tmp = "";
+			if (i == 1) tmp = "d";
+			if (i == 2) tmp = "dd";
+			if (i == 3) tmp = "D";
+			if (A.down[2][1] == base && A.front[0][1] == A.front[1][1]){
+				A.Turn_F();
+				A.Turn_F();
+				return tmp + "FF";
+			}
+			if (A.down[1][2] == base && A.right[0][1] == A.right[1][1]){
+				A.Turn_r();
+				A.Turn_r();
+				return tmp + "rr";
+			}
+			if (A.down[0][1] == base && A.back[0][1] == A.back[1][1]){
+				A.Turn_b();
+				A.Turn_b();
+				return tmp + "bb";
+			}
+			if (A.down[1][0] == base && A.left[0][1] == A.left[1][1]){
+				A.Turn_L();
+				A.Turn_L();
+				return tmp + "LL";
+			}
+			A.Turn_d();
+		}
+		std::cout << "rotate_cross_down_failed" << std::endl;
+		exit(0);
+	}
+	static std::string rotate_cross_floor(Cube &A, int base){
+		for (int i = 0; i < 4; i++){
+			std::string tmp = "";
+			if (i == 1) tmp = "d";
+			if (i == 2) tmp = "dd";
+			if (i == 3) tmp = "D";
+			if (A.front[0][1] == base && A.front[1][1] == A.down[2][1]){
+				A.Turn_D();
+				A.Turn_L();
+				A.Turn_f();
+				A.Turn_l();
+				return tmp + "DLfl";
+			}
+			if (A.right[0][1] == base && A.right[1][1] == A.down[1][2]){
+				A.Turn_D();
+				A.Turn_F();
+				A.Turn_r();
+				A.Turn_f();
+				return tmp + "DFrf";
+			}
+			if (A.left[0][1] == base && A.left[1][1] == A.down[1][0]){
+				A.Turn_D();
+				A.Turn_B();
+				A.Turn_l();
+				A.Turn_b();
+				return tmp + "DBlb";
+			}
+			if (A.back[0][1] == base && A.back[1][1] == A.down[0][1]){
+				A.Turn_D();
+				A.Turn_R();
+				A.Turn_b();
+				A.Turn_r();
+				return tmp + "DRbr";
+			}
+			A.Turn_d();
+		}
+		std::cout << "rotate_cross_floor_failed" << std::endl;
+		exit(0);
+	}
+	static std::string rotate_cross_ceil(Cube &A, int base){
+		for (int i = 0; i < 4; i++){
+			std::string tmp = "";
+			if (i == 1) tmp = "u";
+			if (i == 2) tmp = "uu";
+			if (i == 3) tmp = "U";
+			if (A.front[2][1] == base && A.up[0][1] == A.front[1][1]){
+				A.Turn_f();
+				A.Turn_f();
+				return tmp + "ff";
+			}
+			if (A.left[2][1] == base && A.up[1][0] == A.left[1][1]){
+				A.Turn_L();
+				A.Turn_L();
+				return tmp + "LL";
+			}
+			if (A.back[2][1] == base && A.up[2][1] == A.back[1][1]){
+				A.Turn_B();
+				A.Turn_B();
+				return tmp + "BB";
+			}
+			if (A.right[2][1] == base && A.up[1][2] == A.right[1][1]){
+				A.Turn_r();
+				A.Turn_r();
+				return tmp + "rr";
+			}
+			A.Turn_U();
+		}
+		std::cout << "rotate_cross_ceil_failed" << std::endl;
+		exit(0);
+	}
+	static std::string rotate_cross_between(Cube &A, int base){
+		if (A.front[1][2] == base || A.right[1][0] == base){
+			A.Turn_R();
+			A.Turn_D();
+			A.Turn_r();
+			return "RDr";
+		}
+		if (A.back[1][0] == base || A.right[1][2] == base){
+			A.Turn_r();
+			A.Turn_D();
+			A.Turn_R();
+			return "rDR";
+		}
+
+		if (A.front[1][0] == base || A.left[1][2] == base){
+			A.Turn_l();
+			A.Turn_D();
+			A.Turn_L();
+			return "lDL";
+		}
+		if (A.back[1][2] == base || A.left[1][0] == base){
+			A.Turn_L();
+			A.Turn_D();
+			A.Turn_l();
+			return "LDl";
+		}
+		std::cout << "rotate_cross_between failed" << std::endl;
+		exit(0);
 	}
 	static std::string get_cross(Cube &A){
 		std::string step = "";
-		char base = A.down[1][1];
-		while (A.down[0][1] != base || A.down[1][0] != base ||
-				A.down[1][2] != base || A.down[2][1] != base){
-
-			if (color_mid_of_edge(A.front, base)){
-				step += rotate_cross_front(A, base);
+		char base = A.up[1][1];
+		while (A.up[0][1] != base || A.up[1][0] != base ||
+				A.up[1][2] != base || A.up[2][1] != base||
+				A.front[2][1] != A.front[1][1] ||
+				A.back[2][1] != A.back[1][1] ||
+				A.left[2][1] != A.left[1][1] ||
+				A.right[2][1] != A.right[1][1]){
+			if (color_mid_of_edge(A.down, base)){
+				step += rotate_cross_down(A, base);
 			}
-			else if (color_mid_of_edge(A.left, base)){
-				A.Turn_X();
-				step += "X";
-				step += rotate_cross_front(A, base);
+			else if (color_floor_mid_of_edge(A, base)){
+				step += rotate_cross_floor(A, base);
 			}
-			else if (color_mid_of_edge(A.right, base)){
-				A.Turn_x();
-				step += "x";
-				step += rotate_cross_front(A, base);
+			else if (color_ceil_mid_of_edge(A, base)){
+				step += rotate_cross_ceil(A, base);
 			}
-			else if (color_mid_of_edge(A.back, base)){
-				A.Turn_x();
-				A.Turn_x();
-				step += "xx";
-				step += rotate_cross_front(A, base);
-			}
-			else if (color_mid_of_edge(A.up, base))
-				step += rotate_cross_up(A, base);
+			else rotate_cross_between(A, base);
 		}
-
-		if (get_cross_match_count(A) == 4)
-			return step;
-		if (get_cross_match_count(A) == 0){
-			Cube B = A;
-			B.Turn_d();
-			if (get_cross_match_count(B) == 4){
-				A = B;
-				return step + "d";
-			}
-			B.Turn_d();
-			if (get_cross_match_count(B) == 4){
-				A = B;
-				return step + "dd";
-			}
-			B.Turn_d();
-			if (get_cross_match_count(B) == 4){
-				A = B;
-				return step + "D";
-			}
-		}
-		if (A.front[0][1] == A.front[1][1]){
-			A.Turn_X();
-			step += "X";
-		}
-		A.Turn_L();
-		A.Turn_L();
-		A.Turn_r();
-		A.Turn_r();
-		A.Turn_d();
-		A.Turn_d();
-		A.Turn_L();
-		A.Turn_L();
-		A.Turn_r();
-		A.Turn_r();
-		return step + "LLrrddLLrr";
+		A.Turn_y();
+		A.Turn_y();
+		return step + "yy";
 	}
 	static std::string get_corner(Cube A){
 		std::string step;
