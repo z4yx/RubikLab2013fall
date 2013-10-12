@@ -88,14 +88,14 @@ struct Third
 		return 0;
 	}
 				
-	void Main(Cube &x)
+	string Main(Cube &x)
 	{
 		s="";turn1="RUrURUUr";
 		turn2="luLuluuL";
-		if(Pd_Main(x)) return;
-		if(Pd_Mid(x)) return;
+		if(Pd_Main(x)) return s;
+		if(Pd_Mid(x)) return s;
 		for(;!Pd_Xiao(x););
-		if(Pd_Mid(x)) return;
+		if(Pd_Mid(x)) return s;
 	}
 };
 #endif
