@@ -6,8 +6,7 @@
 using namespace std;
 struct Third
 {
-	string s,turn1,turn2,s1;
-public:
+	string s,turn1,turn2;
 	bool Pd1(Cube &x)
 	{
 		char a=x.up[1][1];
@@ -41,13 +40,13 @@ public:
 		if(Pd1(x))
 		{
 			x.Turn_U();x.Turn_U();x.Turn_U();ss+="UUU";
-			Turn1(x);ss+=turn1;s1=ss;
+			Turn1(x);ss+=turn1;s+=ss;
 			return 1;
 		}
 		if(Pd2(x))
 		{
 			x.Turn_U();x.Turn_U();ss+="UU";
-			Turn2(x);ss+=turn2;s1=ss;
+			Turn2(x);ss+=turn2;s+=ss;
 			return 1;
 		}
 		return 0;
@@ -74,29 +73,60 @@ public:
 	}
 	bool Pd_Mid(Cube &x)
 	{
-		string ss,ss1;
-		Cube xx;
-		ss="";ss1="";
-		if(Pd_Main(x)){s+=s1;return 1;}
+		string ss;
+		ss="";
 		for(int i=1;i<=4;i++)
 		{
-            x.Turn_U();    
-			ss1+="U";ss=ss1+turn1;xx=x;
-			Turn1(x);
-            if(Pd_Main(x)){s+=ss+s1;return 1;}
-			x=xx;
+			x.Turn_U();
+			ss="U";ss+=turn1;
+			Turn1(x);if(Pd_Main(x)){s+=ss;return 1;}
+			Turn2(x);
 		}
 		return 0;
 	}
 				
-	string Main(Cube x)
+	void Main(Cube &x)
 	{
 		s="";turn1="RUrURUUr";
 		turn2="luLuluuL";
-		if(Pd_Main(x)) return s1;
-		if(Pd_Mid(x)) return s;
+		if(Pd_Main(x)) return;
+		if(Pd_Mid(x)) return;
 		for(;!Pd_Xiao(x););
-		if(Pd_Mid(x)) return s;
+		if(Pd_Mid(x)) return;
+	}
+};
+struct Third_sec
+{
+	string s,s1,s2;
+public:
+	void Turn(Cube &x)
+	{
+		x.Turn_Z();
+		x.Turn_r();x.Turn_r();x.Turn_d();x.Turn_d();x.Turn_R();
+		x.Turn_U();x.Turn_r();x.Turn_d();x.Turn_d();x.Turn_R();
+		x.Turn_u();x.Turn_R();
+		x.Turn_z();
+	}
+	string Main(Cube x)
+	{
+		s="";s1="";
+		s2="ZrrddRUrddRuRz";
+		if(x.right[2][0]==x.right[2][2] && x.front[2][2]==x.front[2][0]) return "";
+		for(i=1;i<=4;i++)
+		{	
+			if(x.right[2][0]==x.right[2][2]) break;
+			x.Turn_X();s1+="X";
+		}
+		if(x.right[2][0]!=x.right[2][2]){Turn(x);s+=s2;}
+		else s=s1;
+		for(i=1;i<=4;i++)
+		{	
+			if(x.right[2][0]==x.right[2][2]) break;
+			x.Turn_X();s+="X";
+		}
+		if(x.right[2][0]==x.right[2][2] && x.front[2][2]==x.front[2][0]) return "";
+		Turn(x);s+=s2;
+		return s;
 	}
 };
 #endif
