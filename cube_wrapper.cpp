@@ -209,6 +209,9 @@ PyObject* writestate(PyObject* self, PyObject *args)
 PyObject* reset(PyObject* self, PyObject *args)
 {
 	reset_cube();
+	
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 static PyMethodDef cubeMethods[] =
 {
