@@ -283,25 +283,29 @@ private:
 		assert(0);;
 	}
 	static std::string rotate_corner_fix(Cube &A, int base){
-		if (A.up[0][2] * A.front[2][2] * A.right[2][0] != A.up[1][1] * A.front[1][1] * A.right[1][1]){
+		if (((1 << A.up[0][2]) | (1 << A.front[2][2]) | (1 << A.right[2][0])) !=
+				((1 << A.up[1][1]) | (1 << A.front[1][1]) | (1 << A.right[1][1]))){
 			A.Turn_R();
 			A.Turn_D();
 			A.Turn_r();
 			return "RDr";
 		}
-		if (A.up[2][2] * A.right[2][2] * A.back[2][0] != A.up[1][1] * A.right[1][1] * A.back[1][1]){
+		if (((1 << A.up[2][2]) | (1 << A.right[2][2]) | (1 << A.back[2][0])) !=
+				((1 << A.up[1][1]) | (1 << A.right[1][1]) | (1 << A.back[1][1]))){
 			A.Turn_r();
 			A.Turn_d();
 			A.Turn_R();
 			return "rdR";
 		}
-		if (A.up[2][0] * A.back[2][2] * A.left[2][0] != A.up[1][1] * A.back[1][1] * A.left[1][1]){
+		if (((1 << A.up[2][0]) | (1 << A.back[2][2]) | (1 << A.left[2][0])) !=
+				((1 << A.up[1][1]) | (1 << A.back[1][1]) | (1 << A.left[1][1]))){
 			A.Turn_L();
 			A.Turn_D();
 			A.Turn_l();
 			return "LDl";
 		}
-		if (A.up[0][0] * A.left[2][2] * A.front[2][0] != A.up[1][1] * A.left[1][1] * A.front[1][1]){
+		if (((1 << A.up[0][0]) | (1 << A.left[2][2]) | (1 << A.front[2][0])) !=
+				((1 << A.up[1][1]) | (1 << A.left[1][1]) | (1 << A.front[1][1]))){
 			A.Turn_l();
 			A.Turn_d();
 			A.Turn_L();
@@ -387,7 +391,6 @@ private:
 public:
 	static std::string step_one_solver(Cube A){
 		std::string step = "";
-
 		step += get_cross(A);
 		step += get_corner(A);
 		A.Turn_y();
