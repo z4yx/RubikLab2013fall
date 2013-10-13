@@ -51,7 +51,7 @@ private:
 			A.Turn_d();
 		}
 		std::cout << "rotate_cross_down_failed" << std::endl;
-		exit(0);
+		exit(-1);
 	}
 	static std::string rotate_cross_floor(Cube &A, int base){
 		for (int i = 0; i < 4; i++){
@@ -90,7 +90,7 @@ private:
 			A.Turn_d();
 		}
 		std::cout << "rotate_cross_floor_failed" << std::endl;
-		exit(0);
+		exit(-1);
 	}
 	static std::string rotate_cross_fix(Cube &A, int base){
 		if (A.front[2][1] == base){
@@ -155,7 +155,7 @@ private:
 			return "b";
 		}
 		std::cout << "rotate_cross_between failed" << std::endl;
-		exit(0);
+		exit(-1);
 	}
 	static std::string get_cross(Cube &A){
 		std::string step = "";
@@ -244,7 +244,7 @@ private:
 			A.Turn_d();
 		}
 		std::cout << "rotate_corner_floor_failed" << std::endl;
-		exit(0);
+		exit(-1);
 	}
 	static std::string rotate_corner_down(Cube &A, int base){
 		for (int i = 0; i < 4; i++){
@@ -280,7 +280,7 @@ private:
 			A.Turn_d();
 		}
 		std::cout << "rotate_corner_floor_failed" << std::endl;
-		exit(0);
+		exit(-1);
 	}
 	static std::string rotate_corner_fix(Cube &A, int base){
 		if (A.up[0][2] * A.front[2][2] * A.right[2][0] != A.up[1][1] * A.front[1][1] * A.right[1][1]){
@@ -360,7 +360,8 @@ private:
 			A.Turn_d();
 			return "BDbd";
 		}
-
+		std::cout << "rotate_corner_fix failed" << std::endl;
+		exit(-1);
 	}
 	static std::string get_corner(Cube &A){
 		std::string step;
