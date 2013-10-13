@@ -76,10 +76,12 @@ void solve2_r(Cube &a)
 
 void solve2_l(Cube &a)
 {
+  a.Turn_X();add('X');  
   a.Turn_U();add('U');a.Turn_F();add('F');
   a.Turn_u();add('u');a.Turn_f();add('f');
   a.Turn_u();add('u');a.Turn_r();add('r');
   a.Turn_U();add('U');a.Turn_R();add('R');
+  a.Turn_x();add('x');
 }
 
 void solve2_work(Cube &a,char c1,char c2)
@@ -138,7 +140,15 @@ string solve_2(Cube a)
       if (a.front[1][2]!=a.front[0][0] || a.right[1][0]!=a.right[0][0])
       {
         solve2_work(a,a.front[0][0],a.right[0][0]);
-        if (a.front[2][1]==a.front[0][0]) solve2_r(a);
+        if (a.front[2][1]==a.front[0][0]) 
+        solve2_r(a); 
+        else 
+        {
+          a.Turn_x();add('x');
+          a.Turn_U();add('U');
+          solve2_l(a);
+          a.Turn_X();add('X');
+        }
       }
       a.Turn_X();add('X');
     }
@@ -147,7 +157,13 @@ string solve_2(Cube a)
       if (a.left[1][2]!=a.left[0][0] || a.front[1][0]!=a.front[0][0])
       {
         solve2_work(a,a.left[0][0],a.front[0][0]);
-        if (a.front[2][1]==a.front[0][0]) solve2_l(a);        
+        if (a.front[2][1]==a.front[0][0]) solve2_l(a); else 
+        { 
+          a.Turn_X();add('X');
+          a.Turn_u();add('u');
+          solve2_l(a);
+          a.Turn_x();add('x');
+        }
       }
       a.Turn_X();add('X');
     }
@@ -162,33 +178,3 @@ string solve_2(Cube a)
 }
 };
 #endif
-
-/*
-Cube a;
-
-int main()
-{
-  freopen("a.in","r",stdin);
-  freopen("a.out","w",stdout);
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.front[i][j];
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.right[i][j];
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.back[i][j];
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.left[i][j];
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.up[i][j];
-  for (int i=2;i>=0;i--)
-    for (int j=0;j<3;j++)
-      cin>>a.down[i][j];
-  cout<<solve_2(a)<<endl;
-  return 0;
-}
-*/ 
