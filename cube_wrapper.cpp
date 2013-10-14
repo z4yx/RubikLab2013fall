@@ -69,7 +69,7 @@ static void reset_cube()
 }
 PyObject* rotate(PyObject* self, PyObject *args)
 {
-	int op;
+	char op;
 	int i, j, k;
 	if(!PyArg_ParseTuple(args, "c", &op))
 		return NULL;
