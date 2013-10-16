@@ -2,7 +2,7 @@
 #define CUBE_STEP_ONE_H_
 #include <string>
 #include <cstdlib>
-#include "cube_turn.h"
+#include "Cube_Turn.h"
 #include <cassert>
 #include <iostream>
 class cube_step_one_position{
