@@ -358,3 +358,80 @@ void Cube::Turn_w()
 	Turn_W();
 }
 
+void Cube::Apply(char op)
+{
+	switch(op) {
+		case 'u':
+			Turn_u();
+			break;
+		case 'U':
+			Turn_U();
+			break;
+		case 'D':
+			Turn_D();
+			break;
+		case 'd':
+			Turn_d();
+			break;
+		case 'l':
+			Turn_l();
+			break;
+		case 'L':
+			Turn_L();
+			break;
+		case 'r':
+			Turn_r();
+			break;
+		case 'R':
+			Turn_R();
+			break;
+		case 'f':
+			Turn_f();
+			break;
+		case 'F':
+			Turn_F();
+			break;
+		case 'b':
+			Turn_b();
+			break;
+		case 'B':
+			Turn_B();
+			break;
+		case 'x':
+			Turn_x();
+			break;
+		case 'X':
+			Turn_X();
+			break;
+		case 'y':
+			Turn_y();
+			break;
+		case 'Y':
+			Turn_Y();
+			break;
+		case 'z':
+			Turn_z();
+			break;
+		case 'Z':
+			Turn_Z();
+			break;
+		case 'p':
+			Turn_p();
+			break;
+		case 'P':
+			Turn_P();
+			break;
+		case 'q':
+			Turn_q();
+			break;
+		case 'Q':
+			Turn_Q();
+			break;
+		case 'w':
+			Turn_w();
+			break;
+		case 'W':
+			Turn_W();
+			break;
+	}
+}

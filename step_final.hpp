@@ -23,30 +23,8 @@ class CStepFinal
 	}
 	static void apply(Cube & cubeObj, const char *s)
 	{
-		for(int i=0; s[i]; i++){
-			switch(s[i]){
-				case 'u':
-					cubeObj.Turn_u();
-					break;
-				case 'U':
-					cubeObj.Turn_U();
-					break;
-				case 'l':
-					cubeObj.Turn_l();
-					break;
-				case 'L':
-					cubeObj.Turn_L();
-					break;
-				case 'r':
-					cubeObj.Turn_r();
-					break;
-				case 'R':
-					cubeObj.Turn_R();
-					break;
-				default:
-					fprintf(stderr, "%s invalid cmd: %c\n", __func__, s[i]);
-			}
-		}
+		for(int i=0; s[i]; i++)
+			cubeObj.Apply(s[i]);
 	}
 	static string dirty_scan(Cube & cube, face_t faces[4])
 	{

@@ -44,6 +44,8 @@ public:
 	
 	void Turn_W();
 	void Turn_w();
+
+	void Apply(char op);
 };
 
 #endif /* CUBE_MODEL_H_ */
