@@ -3,7 +3,7 @@
 #else
 #include <Python.h>
 #endif
-#include "Cube_Turn.h"
+#include "cube_model.h"
 #include "cube_step_one.h"
 #include "step_layer2.hpp"
 #include "Third.h"

@@ -2,7 +2,7 @@
 #define Third_H
 #include<stdio.h>
 #include<string.h>
-#include"Cube_Turn.h"
+#include"cube_model.h"
 using namespace std;
 struct Third
 {
