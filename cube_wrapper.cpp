@@ -5,7 +5,7 @@
 #endif
 #include "Cube_Turn.h"
 #include "cube_step_one.h"
-#include "solve_2.cpp"
+#include "step_layer2.hpp"
 #include "Third.h"
 #include "step_final.hpp"
 
@@ -178,8 +178,7 @@ PyObject* step1(PyObject* self, PyObject *args)
 }
 PyObject* step2(PyObject* self, PyObject *args)
 {
-	second second_solver;
-	std::string steps = second_solver.solve_2(cubeObj);
+	std::string steps = CStep2::run(cubeObj);
 	printf("step2: %s\n", steps.c_str());
 	return Py_BuildValue("s", steps.c_str());
 }
