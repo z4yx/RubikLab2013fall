@@ -13,4 +13,4 @@ all: cube.so
 %.o: %.cpp
 	g++ -fpic -Wall -c $< -o $@ -I/usr/include/python2.7
 cube.so: $(OBJS)
-	g++ -shared -o cube.so $< $(LINK_PYTHON)
+	g++ -shared -o cube.so $(OBJS) $(LINK_PYTHON)
