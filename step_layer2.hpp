@@ -1,3 +1,6 @@
+#ifndef STEP_LAYER2_HPP_
+#define STEP_LAYER2_HPP_
+
 #include "cube_model.h"
 #include <string>
 using std::string;
@@ -120,3 +123,5 @@ public:
 	}
 
 };
+
+#endif

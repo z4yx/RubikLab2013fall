@@ -1,3 +1,6 @@
+#ifndef STEP_FINAL_HPP_
+#define STEP_FINAL_HPP_
+
 #include "cube_model.h"
 #include <string>
 using std::string;
@@ -78,3 +81,5 @@ public:
 	}
 
 };
+
+#endif
