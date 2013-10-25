@@ -5,9 +5,9 @@
 #endif
 #include "cube_model.h"
 #include "cube_step_one.h"
-#include "step_layer2.hpp"
-#include "Third.h"
-#include "step_final.hpp"
+#include "step_layer2.h"
+#include "step_up_face.h"
+#include "step_final.h"
 
 #define STATE_FILE "cube.save"
 
@@ -112,8 +112,7 @@ PyObject* step2(PyObject* self, PyObject *args)
 }
 PyObject* step3(PyObject* self, PyObject *args)
 {
-	Third third_solver;
-	std::string steps = third_solver.Main(cubeObj);
+	std::string steps = CStepUpFace::run(cubeObj);
 	printf("step3: %s\n", steps.c_str());
 	return Py_BuildValue("s", steps.c_str());
 }
