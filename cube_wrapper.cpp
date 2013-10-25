@@ -122,6 +122,29 @@ PyObject* step4(PyObject* self, PyObject *args)
 	printf("step4: %s\n", steps.c_str());
 	return Py_BuildValue("s", steps.c_str());
 }
+PyObject* step_all(PyObject* self, PyObject *args)
+{
+	Cube tmp = cubeObj;
+	std::string steps, ret;
+
+	ret = cube_step_one::step_one_solver(tmp);
+	tmp.ApplyStr(ret.c_str());
+	steps += ret;
+	
+	ret = CStep2::run(tmp);
+	tmp.ApplyStr(ret.c_str());
+	steps += ret;
+	
+	ret = CStepUpFace::run(tmp);
+	tmp.ApplyStr(ret.c_str());
+	steps += ret;
+	
+	ret = CStepFinal::run(tmp);
+	steps += ret;
+	
+	printf("step_all: %s\n", steps.c_str());
+	return Py_BuildValue("s", steps.c_str());
+}
 PyObject* readstate(PyObject* self, PyObject *args)
 {
 	do_read_state();
@@ -154,6 +177,7 @@ static PyMethodDef cubeMethods[] =
 	{"step2", step2, METH_VARARGS, "step2"},
 	{"step3", step3, METH_VARARGS, "step3"},
 	{"step4", step4, METH_VARARGS, "step4"},
+	{"step_all", step_all, METH_VARARGS, "get all steps"},
 	{NULL, NULL}
 };
 extern "C"{

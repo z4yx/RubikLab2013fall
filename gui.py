@@ -251,14 +251,10 @@ def keyPressed(*args):
         steps = cube.step4();
         pendingSteps = steps
         fetchPendings()
-    # elif args[0] == 'a':
-    #     rotate_y -= 5.0
-    # elif args[0] == 'd':
-    #     rotate_y += 5.0
-    # elif args[0] == 'w':
-    #     rotate_x -= 5.0
-    # elif args[0] == 's':
-    #     rotate_x += 5.0
+    elif key == 'a':
+        steps = cube.step_all();
+        pendingSteps = steps
+        fetchPendings()
     else:
         if not (key in Operations):
             return
