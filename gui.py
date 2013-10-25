@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from cube_oper import *
+import random
 import cube
 
 rotate_y = -45.0
@@ -221,6 +222,13 @@ def startAnimation(oper):
     (anim_elements,anim_axis,anim_delta) = Operations[oper]
     anim_delta *= 4
 
+def getRandomOp():
+    steps = ''
+    moves_all = ['u','l','r','w','p','q','d','f','b'];
+    for i in xrange(20):
+        steps += random.choice(moves_all)
+    return steps
+
 def keyPressed(*args):
     global pendingSteps
     global cur_oper
@@ -235,6 +243,10 @@ def keyPressed(*args):
         cube.writestate()
     elif key == '0':
         cube.readstate()
+    elif key == '-':
+        steps = getRandomOp()
+        pendingSteps = steps
+        fetchPendings()
     elif key == '1':
         steps = cube.step1();
         pendingSteps = steps
