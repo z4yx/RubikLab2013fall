@@ -15,6 +15,12 @@ static const char *FORMULA_4_2 = "furURF";
 static const char *FORMULA_5_1 = "RuuruRur";
 static const char *FORMULA_5_2 = "UruuRUrUR";
 
+static const char *FORMULA_OLL_3 = "ruRurURuruuR";
+static const char *FORMULA_OLL_4 = "rUURRUrrURRUUr";
+static const char *FORMULA_OLL_5 = "zluRUZLfrF";
+static const char *FORMULA_OLL_6 = "ruRurUURurUURUrUR";
+static const char *FORMULA_OLL_7 = "FzluRUZLfr";
+
 static const up_face_state_t up_face_finished =
 {
 
@@ -51,46 +57,45 @@ static const up_face_state_t up_face_states[] =
 		},
 		FORMULA_5_2
 	},
-	//两步可使顶层面位
-	{
-		{
-			{0, 1, 0, 0, 0},
-			{0, 0, 1, 1, 0},
-			{0, 1, 1, 1, 0},
-			{0, 1, 1, 0, 1},
-			{0, 0, 0, 0, 0}
-		},
-		FORMULA_5_1
-	},
 	{
 		{
 			{0, 0, 0, 0, 0},
 			{1, 0, 1, 0, 1},
 			{0, 1, 1, 1, 0},
-			{0, 0, 1, 0, 0},
-			{0, 1, 0, 1, 0}
+			{1, 0, 1, 0, 1},
+			{0, 0, 0, 0, 0}
 		},
-		FORMULA_5_1
+		FORMULA_OLL_3
 	},
 	{
 		{
-			{0, 1, 0, 1, 0},
-			{0, 0, 1, 0, 0},
-			{0, 1, 1, 1, 0},
-			{0, 0, 1, 0, 0},
-			{0, 1, 0, 1, 0}
-		},
-		FORMULA_5_1
-	},
-	{
-		{
-			{0, 0, 0, 1, 0},
-			{0, 1, 1, 0, 0},
+			{0, 0, 0, 0, 0},
+			{1, 0, 1, 1, 0},
 			{0, 1, 1, 1, 0},
 			{0, 1, 1, 0, 0},
 			{0, 0, 0, 1, 0}
 		},
-		FORMULA_5_2
+		FORMULA_OLL_7
+	},
+	{
+		{
+			{0, 0, 0, 1, 0},
+			{1, 0, 1, 0, 0},
+			{0, 1, 1, 1, 0},
+			{1, 0, 1, 0, 0},
+			{0, 0, 0, 1, 0}
+		},
+		FORMULA_OLL_4
+	},
+	{
+		{
+			{0, 1, 0, 0, 0},
+			{0, 0, 1, 1, 0},
+			{0, 1, 1, 1, 0},
+			{0, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0}
+		},
+		FORMULA_OLL_5
 	},
 	{
 		{
@@ -100,7 +105,7 @@ static const up_face_state_t up_face_states[] =
 			{0, 0, 1, 0, 0},
 			{0, 1, 0, 1, 0}
 		},
-		FORMULA_5_2
+		FORMULA_OLL_6
 	},
 	//得到顶层十字
 	{
