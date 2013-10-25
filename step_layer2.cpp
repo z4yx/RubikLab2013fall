@@ -3,8 +3,8 @@
 #include <string>
 using std::string;
 
-static const char *LAYER2_FORMULA_L = "FUFUFufuf";
-static const char *LAYER2_FORMULA_R = "fufufUFUF";
+static const char *LAYER2_FORMULA_L = "ULulufUF";
+static const char *LAYER2_FORMULA_R = "urURUFuf";
 
 string CStep2::corner_place(Cube & cube)
 {
