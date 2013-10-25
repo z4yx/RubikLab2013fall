@@ -435,3 +435,9 @@ void Cube::Apply(char op)
 			break;
 	}
 }
+
+void Cube::ApplyStr(const char *s)
+{
+	for(; *s; s++)
+		Apply(*s);
+}
