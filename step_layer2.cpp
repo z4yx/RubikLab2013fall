@@ -54,13 +54,13 @@ string CStep2::do_place(Cube & cube, face_t faces[])
 		fprintf(stderr, "%s: no available on top\n", __func__);
 		return ret;
 	}
-	int side_color = faces[avai_pos][2][1];
+	int side_color = faces[avai_pos][2][1], t = 0;
 	while(cube.front[1][1] != side_color){
-		cube.Turn_P();
-		cube.Turn_d();
-		ret += "Pd";
+		cube.Turn_x();
+		ret += 'x';
+		t++;
 	}
-	for(int i=0; i<avai_pos; i++){
+	for(int i=(avai_pos - t + 4)%4; i--; ){
 		cube.Turn_u();
 		ret += 'u';
 	}
