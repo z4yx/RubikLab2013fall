@@ -55,7 +55,6 @@ string CStepUpFace::place_up_face(Cube &cubeObj)
 			if(ret.size()) {
 				steps += ret;
 				cubeObj.ApplyStr(ret.c_str());
-				fprintf(stderr, "%s%d\n", "solution found: ", i);
 				break;
 			}
 		}
@@ -77,7 +76,6 @@ string CStepUpFace::permute_corners(Cube &cubeObj)
 		}
 		if(!num)
 			break;
-		printf("num: %d\n", num);
 
 		if(num < 4) {
 			for(int i=0; i<4; i++) {
