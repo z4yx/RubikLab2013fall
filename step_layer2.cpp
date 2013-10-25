@@ -5,6 +5,7 @@ using std::string;
 
 static const char *LAYER2_FORMULA_L = "ULulufUF";
 static const char *LAYER2_FORMULA_R = "urURUFuf";
+static const char *LAYER2_FORMULA_FLIP = "rUURurUURuXRUr";
 
 string CStep2::corner_place(Cube & cube)
 {
@@ -20,10 +21,12 @@ string CStep2::corner_place(Cube & cube)
 	}
 	return ret;
 }
-int CStep2::find_incorrect(face_t faces[])
+int CStep2::find_incorrect(face_t faces[], bool check_flip)
 {
 	for(int i=0; i<4; i++) {
 		if(faces[i][1][2]!=faces[i][1][1] || faces[i+1][1][1]!=faces[i+1][1][0]){
+			if(check_flip && (faces[i][1][2]!=faces[i+1][1][1] || faces[i+1][1][0]!=faces[i][1][1]) )
+				continue;
 			return i;
 		}
 	}
@@ -84,6 +87,21 @@ string CStep2::random_place(Cube & cube, face_t faces[])
 	ret += LAYER2_FORMULA_R;
 	return ret;
 }
+//处理棱块位置正确但方向错误的情况
+string CStep2::try_correct_flip(Cube & cube, face_t faces[])
+{
+	string ret;
+	int incorrect = find_incorrect(faces, true);
+	if(incorrect < 0)
+		return ret;
+	while(incorrect--){
+		ret += 'x';
+		cube.Turn_x();
+	}
+	cube.ApplyStr(LAYER2_FORMULA_FLIP);
+	ret += LAYER2_FORMULA_FLIP;
+	return ret;
+}
 string CStep2::run(Cube cubeObj)
 {
 	string ret;
@@ -101,11 +119,15 @@ string CStep2::run(Cube cubeObj)
 	while(-1 != find_incorrect(faces)) {
 		if(-1 == avai_on_top(cubeObj)){
 			// printf("%s\n", "no available on top");
-			ret += random_place(cubeObj, faces);
-			// return ret;
+			string tmp = try_correct_flip(cubeObj, faces);
+			if(tmp.size()){
+				ret += tmp;
+				continue;
+			}else{
+				ret += random_place(cubeObj, faces);
+			}
 		}
 		ret += do_place(cubeObj, faces);
-		// return ret;
 	}
 
 	return ret;
