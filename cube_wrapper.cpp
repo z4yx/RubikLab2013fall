@@ -8,6 +8,7 @@
 #include "step_layer2.h"
 #include "step_up_face.h"
 #include "step_final.h"
+#include "cube_simplify.h"
 
 #define STATE_FILE "cube.save"
 
@@ -66,6 +67,16 @@ static void reset_cube()
 	int i;
 	for(i = 0; i < 6; i++)
 		setAll(faces[i], i);
+}
+PyObject* simplify(PyObject* self, PyObject *args)
+{
+	char* steps;
+	if(!PyArg_ParseTuple(args, "s", &steps))
+		return NULL;
+	std::string new_str = 
+		cube_simplify::cube_simplify_simplify(std::string(steps));
+	printf("simplified: %s\n", new_str.c_str());
+	return Py_BuildValue("s", new_str.c_str());
 }
 PyObject* rotate(PyObject* self, PyObject *args)
 {
@@ -178,6 +189,7 @@ static PyMethodDef cubeMethods[] =
 	{"step3", step3, METH_VARARGS, "step3"},
 	{"step4", step4, METH_VARARGS, "step4"},
 	{"step_all", step_all, METH_VARARGS, "get all steps"},
+	{"simplify", simplify, METH_VARARGS, "simplify steps"},
 	{NULL, NULL}
 };
 extern "C"{

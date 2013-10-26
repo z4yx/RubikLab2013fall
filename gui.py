@@ -265,7 +265,7 @@ def keyPressed(*args):
         fetchPendings()
     elif key == 'a':
         steps = cube.step_all();
-        pendingSteps = steps
+        pendingSteps = cube.simplify(steps)
         fetchPendings()
     else:
         if not (key in Operations):

@@ -56,13 +56,14 @@ while True:
 	cube.writestate()
 
 	if start_step<=1:
-		apply_move(cube.step1())
-	if start_step<=2:
-		apply_move(cube.step2())
-	if start_step<=3:
-		apply_move(cube.step3())
-	
-	apply_move(cube.step4())
+		apply_move(cube.simplify(cube.step_all()))
+	else:
+		if start_step<=2:
+			apply_move(cube.step2())
+		if start_step<=3:
+			apply_move(cube.step3())
+		
+		apply_move(cube.step4())
 
 	if not correct():
 		error += 1

@@ -2,6 +2,7 @@ from distutils.core import setup, Extension
 
 module1 = Extension('cube',
                     sources = [
+                    'cube_simplify.cpp',
                     'cube_wrapper.cpp',
                     'cube_model.cpp',
 					'cube_step_one.cpp',
