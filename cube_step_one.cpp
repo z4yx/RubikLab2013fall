@@ -379,7 +379,9 @@ std::string cube_step_one::get_corner(Cube &A){
 }
 
 std::string cube_step_one::step_one_solver(Cube A){
-	std::string step = "";
+	std::string step = "yy";
+    A.Turn_y();
+    A.Turn_y();
 	step += get_cross(A);
 	step += get_corner(A);
 	A.Turn_y();
