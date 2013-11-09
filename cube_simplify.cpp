@@ -49,6 +49,18 @@ void cube_simplify::cube_simplify_initialize(){
 	mZ.a[LLL][LLL] = mZ.a[RRR][RRR] = mZ.a[ZZZ][ZZZ] = mZ.a[YYY][XXX] = 1; mZ.a[XXX][YYY] = 3;
 }
 
+static char uppercase(char ch){
+    if ('a' <= ch && ch <= 'z')
+        return ch - 'a' + 'A';
+    return ch;
+}
+
+static char lowercase(char ch){
+    if ('A' <= ch && ch <= 'Z')
+        return ch - 'A' + 'a';
+    return ch;
+}
+
 char cube_simplify::change(char ch, const matrix& M){
 	int mul = 1;
 	if ('a' <= ch && ch <= 'z'){
@@ -96,7 +108,25 @@ std::string cube_simplify::cube_simplify_simplify(std::string origen){
 		else
 			ans += ch;
 	}
-	return ans;
+    std::string sol = "";
+    for (int i = 0; i < (int)ans.size(); i++){
+        int j, cnt = 0;
+        for (j = i; j < (int)ans.size(); j++)
+            if (uppercase(ans[i]) == uppercase(ans[j]))
+                cnt += 1 + (uppercase(ans[j]) == ans[j]) * 2;
+        cnt %= 4;
+        if (cnt == 1)
+            sol += lowercase(ans[i]);
+        else if (cnt == 2){
+            sol += lowercase(ans[i]);
+            sol += lowercase(ans[i]);
+        }
+        else if (cnt == 3){
+            sol += uppercase(ans[i]);
+        }
+        i = j;
+    }
+	return sol;
 }
 /*
 int main(){
