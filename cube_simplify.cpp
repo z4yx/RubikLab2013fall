@@ -114,6 +114,8 @@ std::string cube_simplify::cube_simplify_simplify(std::string origen){
         for (j = i; j < (int)ans.size(); j++)
             if (uppercase(ans[i]) == uppercase(ans[j]))
                 cnt += 1 + (uppercase(ans[j]) == ans[j]) * 2;
+            else
+                break;
         cnt %= 4;
         if (cnt == 1)
             sol += lowercase(ans[i]);
@@ -124,7 +126,7 @@ std::string cube_simplify::cube_simplify_simplify(std::string origen){
         else if (cnt == 3){
             sol += uppercase(ans[i]);
         }
-        i = j;
+        i = j - 1;
     }
 	return sol;
 }
